@@ -1,0 +1,9 @@
+.container {
+	width: 85%;
+	margin: auto;
+	padding: 5em 0;
+}
+
+#title {
+	font-size: 7em;
+}
