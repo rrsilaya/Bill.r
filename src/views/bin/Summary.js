@@ -12,7 +12,7 @@ class Summary extends Component {
 					<Table.Row>
 						<Table.HeaderCell />
 						{
-							this.props.residents.map((resident, i) => <Resident key={i} name={resident.name} />)
+							this.props.residents.map((resident, i) => <Resident key={i} name={resident.name} img={resident.img} />)
 						}
 					</Table.Row>
 				</Table.Header>

@@ -8,13 +8,15 @@ import billsDummy from './data/bills-dummy';
 
 import Header from './bin/TopHeader';
 import Navigation from './bin/Navigation';
+
 import Overview from './views/Overview';
+import AddResident from './views/AddResident';
 
 class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			activeTab: "overview",
+			activeTab: "add-resident",
 			residents: residentsDummy,
 			bills: billsDummy
 		}
@@ -26,6 +28,9 @@ class App extends Component {
 
 		if(activeTab === "overview") return (
 			<Overview residents={residents} bills={bills} />
+		);
+		else if(activeTab === "add-resident") return (
+			<AddResident />
 		);
 		else return (<div></div>);
 	}

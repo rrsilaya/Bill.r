@@ -12,8 +12,8 @@ class Navigation extends Component {
 					<Menu.Item name="list" active={activeTab === "list"} onClick={this.props.changeTab} />
 
 					<Menu.Menu position="right">
-						<Menu.Item name="new-resident" active={activeTab === "new-resident"} onClick={this.props.changeTab}>
-							<Icon name="user" /> New Resident
+						<Menu.Item name="add-resident" active={activeTab === "add-resident"} onClick={this.props.changeTab}>
+							<Icon name="user" /> Add Resident
 						</Menu.Item>
 						<Menu.Item name="new-bill" active={activeTab === "new-bill"} onClick={this.props.changeTab}>
 							<Icon name="add" /> New Bill
