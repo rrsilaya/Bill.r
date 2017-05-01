@@ -3,15 +3,27 @@ import { Table, Statistic, Icon } from 'semantic-ui-react';
 
 class Bill extends Component {
 	renderPayments = (amount, residents, payment) =>
-		this.props.residents.map((resident, i) => {
+		this.props.residents.map((resident) => {
 			if(payment[resident.name.toLowerCase()] != null) {
-				return <Table.Cell key={i}>{
-					payment[resident.name.toLowerCase()] === amount ?
-					<Icon name="check" color="green" size="large" /> :
-					"P" + (amount - payment[resident.name.toLowerCase()]) + " left"
-				}</Table.Cell>;
-			} else return <Table.Cell key={i}><Icon name="cancel" color="red" size="large" /></Table.Cell>;
-		})
+				return (
+					<Table.Cell key={resident.name} bill={this.props.bills.title} selectable>
+						<a href="#">
+						{
+							payment[resident.name.toLowerCase()] === amount ?
+							<Icon name="check" color="green" size="large" /> :
+							"P" + (amount - payment[resident.name.toLowerCase()]) + " left"
+						}
+						</a>
+					</Table.Cell>
+				);
+			} else {
+				return (
+					<Table.Cell key={resident.name} bill={this.props.bills.title} selectable>
+						<a href="#"><Icon name="cancel" color="red" size="large" /></a>
+					</Table.Cell>
+				);
+			}
+		});
 
 	render() {
 		const {title, amount, month, payment} = this.props.bills;
