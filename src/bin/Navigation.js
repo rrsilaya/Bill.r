@@ -9,7 +9,7 @@ class Navigation extends Component {
 			<div>
 				<Menu pointing secondary>
 					<Menu.Item name="overview" active={activeTab === "overview"} onClick={this.props.changeTab} />
-					<Menu.Item name="list" active={activeTab === "list"} onClick={this.props.changeTab} />
+					<Menu.Item name="overview-list" active={activeTab === "overview-list"} onClick={this.props.changeTab} />
 
 					<Menu.Menu position="right">
 						<Menu.Item name="add-resident" active={activeTab === "add-resident"} onClick={this.props.changeTab}>
