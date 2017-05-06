@@ -10,7 +10,7 @@ class Stats extends Component {
 					<Statistic.Label>Unpaid Bills</Statistic.Label>
 				</Statistic>
 				<Statistic>
-					<Statistic.Value>P1000</Statistic.Value>
+					<Statistic.Value>P{this.props.calcUnpaid()}</Statistic.Value>
 					<Statistic.Label>Total Unpaid</Statistic.Label>
 				</Statistic>
 				<Statistic>

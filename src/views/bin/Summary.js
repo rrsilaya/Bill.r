@@ -19,7 +19,7 @@ class Summary extends Component {
 
 				<Table.Body>
 					{
-						this.props.bills.map((bill, i) => <Bill key={i} bills={bill} residents={this.props.residents} />)
+						this.props.bills.map((bill, i) => <Bill key={i} bills={bill} residents={this.props.residents} payBill={this.props.payBill} paymentSuccess={this.props.paymentSuccess} />)
 					}
 				</Table.Body>
 			</Table>
