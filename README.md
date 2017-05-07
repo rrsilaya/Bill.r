@@ -13,4 +13,8 @@ Bill.r is a web application powered by ReactJS for monitoring bills with your ro
 # Run
 1. Clone this repository `git clone https://github.com/rrsilaya/Bill.r.git`.
 2. Go to the directory `cd bill.r`.
-3. Run `npm start`.
+3. Install dependencies `npm install`.
+4. Run `npm start`. The app is on [http://localhost:3000](http://localhost:3000)
+
+# Building
+Run `npm run build` to build the app for production. The bundle will be in `build/` folder.
