@@ -87,7 +87,6 @@ class App extends Component {
 
 		this.allResidentsPaid(billTitle);
 		this.saveState();
-		console.log(this.state);
 		return success;
 	}
 

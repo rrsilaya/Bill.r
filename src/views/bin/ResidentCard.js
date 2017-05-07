@@ -12,10 +12,7 @@ class ResidentCard extends Component {
 		}
 	}
 
-	handleModal = () => {
-		this.setState({ confirmRemove: !this.state.confirmRemove });
-		console.log(this.state.confirmRemove);
-	}
+	handleModal = () => this.setState({ confirmRemove: !this.state.confirmRemove });
 
 	render() {
 		return (
