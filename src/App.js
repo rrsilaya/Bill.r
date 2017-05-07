@@ -3,8 +3,6 @@ import { Segment } from 'semantic-ui-react';
 
 import './App.css';
 import 'semantic-ui-css/semantic.css';
-import residentsDummy from './data/residents-dummy';
-import billsDummy from './data/bills-dummy';
 
 import Header from './bin/TopHeader';
 import Navigation from './bin/Navigation';
@@ -18,12 +16,25 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			activeTab: "overview-list",
-			residents: residentsDummy,
-			bills: billsDummy,
+			activeTab: "overview",
+			residents: [],
+			bills: [],
 			alert: false
 		}
 	}
+
+	componentDidMount = () => {
+		const state = JSON.parse(localStorage.getItem('bill.r'));
+		
+		if(state != null) {
+			this.setState({
+				residents: state.residents,
+				bills: state.bills
+			})
+		}
+	}
+
+	saveState = () => localStorage.setItem('bill.r', JSON.stringify(this.state));
 
 	allResidentsPaid = (billTitle) => {
 		var allResidentsPaid = true;
@@ -54,21 +65,20 @@ class App extends Component {
 		}
 	}
 
-	paymentSuccess = () => {}
-
-	payBill = (billTitle, resident, amount) => {
-		var updatedAmt;
+	payBill = (billTitle, month, resident, amount) => {
+		var updatedAmt, success;
 
 		this.setState({ bills: this.state.bills.map(bill => {
-			if(bill.title.toLowerCase() === billTitle.toLowerCase()) {
+			if(bill.title.toLowerCase() === billTitle.toLowerCase() && bill.month === month) {
 				if(bill.payment[resident.toLowerCase()] != null) {
 					updatedAmt = bill.payment[resident.toLowerCase()] + amount;
 				} else updatedAmt = amount;
 
 				if(amount <= 0 || updatedAmt > bill.amount) {
-					amount = 0;
+					success = false;
 				} else {
 					bill.payment[resident.toLowerCase()] = updatedAmt;
+					success = true;
 				}
 			}
 
@@ -76,18 +86,23 @@ class App extends Component {
 		})});
 
 		this.allResidentsPaid(billTitle);
+		this.saveState();
+		console.log(this.state);
+		return success;
 	}
 
 	addResident = (name, img) => {
 		this.setState({
 			residents: [...this.state.residents, {name, img}]
 		})
+		this.saveState();
 	}
 
 	addBill = (title, month, amount) => {
 		this.setState({
 			bills: [...this.state.bills, { title, month, amount, payment: {}}]
 		})
+		this.saveState();
 	}
 
 	calcUnpaid = () => {
@@ -106,12 +121,14 @@ class App extends Component {
 		this.setState({
 			residents: this.state.residents.filter(resident => {return resident.name !== name})
 		})
+		this.saveState();
 	}
 
 	deleteBill = (title, month) => {
 		this.setState({
 			bills: this.state.bills.filter(bill => {return bill.title !== title || bill.month !== month})
 		})
+		this.saveState();
 	}
 
 	changeTab = (e, { name }) => this.setState({ activeTab: name });
@@ -119,7 +136,7 @@ class App extends Component {
 		const { activeTab, residents, bills } = this.state;
 
 		if(activeTab === "overview") return (
-			<Overview residents={residents} bills={bills} payBill={this.payBill} alert={this.state.alert} calcUnpaid={this.calcUnpaid} />
+			<Overview residents={residents} bills={bills} payBill={this.payBill} alert={this.state.alert} calcUnpaid={this.calcUnpaid} paymentSuccess={this.state.paymentSuccess} />
 		);
 		else if(activeTab === "add-resident") return (
 			<AddResident addResident={this.addResident} />
