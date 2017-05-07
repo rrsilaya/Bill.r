@@ -25,7 +25,7 @@ class ResidentCard extends Component {
 					<br/>
 					<Card.Header>{this.props.name}</Card.Header>
 					<br/>
-					P1200.00 unpaid</Card.Content>
+					</Card.Content>
 				<Card.Content extra>
 					<Button onClick={this.handleModal} negative basic fluid>Remove</Button>
 				</Card.Content>
