@@ -11,13 +11,13 @@ class PayBill extends Component {
 	}
 		
 	handleTransac = () => {
-		this.props.payBill(this.props.title, this.props.activeBill, this.state.amount, this.handleSuccess);
-		this.setState({ success: this.props.paymentSuccess });
+		if(this.props.payBill(this.props.title, this.props.month, this.props.activeBill, this.state.amount, this.handleSuccess)) {
+			this.setState({ success: true});
+		} else this.setState({ success: false});
 
 		if(this.state.success) {
 			this.handleModal();
 		}
-		console.log(this.props.paymentSuccess);
 	}
 
 	handleChange = (e, { value }) => {
@@ -34,7 +34,7 @@ class PayBill extends Component {
 	render() {
 		return (
 			<Modal open={this.props.modalOpen} onClose={this.handleModal} closeOnRootNodeClick={false} size="small" basic>
-				<Header><Icon name="money" />Pay for {this.props.title}</Header>
+				<Header><Icon name="money" />Pay for {this.props.title} ({this.props.month})</Header>
 				<Modal.Content>
 				{
 					this.state.success ? <div></div> :
