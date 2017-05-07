@@ -16,21 +16,10 @@ class Bill extends Component {
 
 	renderPayments = (amount, residents, payment) =>
 		this.props.residents.map((resident) => {
-			if(payment[resident.name.toLowerCase()] != null) {
+			if(payment[resident.name.toLowerCase()] === amount) {
 				return (
-					<Table.Cell key={resident.name} selectable>
-						<a href="#" onClick={(e) => {
-							e.preventDefault();
-							this.handleModal();
-							this.setState({ activeBill: resident.name });
-							return false;
-						}}>
-						{
-							payment[resident.name.toLowerCase()] === amount ?
-							<Icon name="check" color="green" size="large" /> :
-							"P" + (amount - payment[resident.name.toLowerCase()]) + " left"
-						}
-						</a>
+					<Table.Cell key={resident.name}>
+						<Icon name="check" color="green" size="large" />
 					</Table.Cell>
 				);
 			} else {
@@ -41,7 +30,14 @@ class Bill extends Component {
 							this.handleModal();
 							this.setState({ activeBill: resident.name });
 							return false;
-						}}><Icon name="cancel" color="red" size="large" /></a>
+						}}>
+						{
+							payment[resident.name.toLowerCase()] == null ?
+							<Icon name="cancel" color="red" size="large" />
+							 :
+							"P" + (amount - payment[resident.name.toLowerCase()]) + " left"
+						}
+						</a>
 					</Table.Cell>
 				);
 			}
