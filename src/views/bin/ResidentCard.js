@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'semantic-ui-react';
 
+import ConfirmRemove from './ConfirmRemove';
 import '../../App.css';
 
 class ResidentCard extends Component {
+	constructor() {
+		super();
+		this.state = {
+			confirmRemove: false
+		}
+	}
+
+	handleModal = () => {
+		this.setState({ confirmRemove: !this.state.confirmRemove });
+		console.log(this.state.confirmRemove);
+	}
+
 	render() {
 		return (
 			<Card>
@@ -14,8 +27,11 @@ class ResidentCard extends Component {
 					<br/>
 					P1200.00 unpaid</Card.Content>
 				<Card.Content extra>
-					<Button onClick={() => this.props.deleteResident(this.props.name)} negative basic fluid>Remove</Button>
+					<Button onClick={this.handleModal} negative basic fluid>Remove</Button>
 				</Card.Content>
+
+				<ConfirmRemove kind="residents" state={this.state.confirmRemove} title={this.props.name}
+					handleModal={this.handleModal} deleteHandle={this.props.deleteResident} />
 			</Card>
 		);
 	}
