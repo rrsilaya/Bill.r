@@ -1,65 +1,63 @@
 const months = [
-	{
-		text: "January",
-		value: "January"
-	},
+  {
+    text: 'January',
+    value: 'January'
+  },
 
-	{
-		text: "February",
-		value: "February"
-	},
+  {
+    text: 'February',
+    value: 'February'
+  },
 
-	{
-		text: "March",
-		value: "March"
-	},
+  {
+    text: 'March',
+    value: 'March'
+  },
 
-	{
-		text: "April",
-		value: "April"
-	},
+  {
+    text: 'April',
+    value: 'April'
+  },
 
-	{
-		text: "May",
-		value: "May"
-	},
+  {
+    text: 'May',
+    value: 'May'
+  },
 
-	{
-		text: "June",
-		value: "June"
-	},
+  {
+    text: 'June',
+    value: 'June'
+  },
 
-	{
-		text: "July",
-		value: "July"
-	},
+  {
+    text: 'July',
+    value: 'July'
+  },
 
-	{
-		text: "August",
-		value: "August"
-	},
+  {
+    text: 'August',
+    value: 'August'
+  },
 
-	{
-		text: "September",
-		value: "September"
-	},
+  {
+    text: 'September',
+    value: 'September'
+  },
 
-	{
-		text: "October",
-		value: "October"
-	},
+  {
+    text: 'October',
+    value: 'October'
+  },
 
-	{
-		text: "November",
-		value: "November"
-	},
+  {
+    text: 'November',
+    value: 'November'
+  },
 
-	{
-		text: "December",
-		value: "December"
-	},
-
-
-]
+  {
+    text: 'December',
+    value: 'December'
+  }
+];
 
 export default months;

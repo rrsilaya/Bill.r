@@ -5,26 +5,32 @@ import Resident from '../../data/Resident';
 import Bill from '../../data/Bill';
 
 class Summary extends Component {
-	render() {
-		return (
-			<Table textAlign="center" definition padded fixed celled>
-				<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell />
-						{
-							this.props.residents.map((resident, i) => <Resident key={i} name={resident.name} img={resident.img} />)
-						}
-					</Table.Row>
-				</Table.Header>
+  render() {
+    return (
+      <Table textAlign="center" definition padded fixed celled>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell />
+            {this.props.residents.map((resident, i) =>
+              <Resident key={i} name={resident.name} img={resident.img} />
+            )}
+          </Table.Row>
+        </Table.Header>
 
-				<Table.Body>
-					{
-						this.props.bills.map((bill, i) => <Bill key={i} bills={bill} residents={this.props.residents} payBill={this.props.payBill} paymentSuccess={this.props.paymentSuccess} />)
-					}
-				</Table.Body>
-			</Table>
-		);
-	}
+        <Table.Body>
+          {this.props.bills.map((bill, i) =>
+            <Bill
+              key={i}
+              bills={bill}
+              residents={this.props.residents}
+              payBill={this.props.payBill}
+              paymentSuccess={this.props.paymentSuccess}
+            />
+          )}
+        </Table.Body>
+      </Table>
+    );
+  }
 }
 
 export default Summary;

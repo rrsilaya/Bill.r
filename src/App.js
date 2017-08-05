@@ -13,148 +13,196 @@ import NewBill from './views/NewBill';
 import OverviewList from './views/OverviewList';
 
 class App extends Component {
-	constructor() {
-		super();
-		this.state = {
-			activeTab: "overview",
-			residents: [],
-			bills: [],
-			alert: false
-		}
-	}
+  constructor() {
+    super();
+    this.state = {
+      activeTab: 'overview',
+      residents: [],
+      bills: [],
+      alert: false
+    };
+  }
 
-	componentDidMount = () => {
-		const state = JSON.parse(localStorage.getItem('bill.r'));
-		
-		if(state != null) {
-			this.setState({
-				residents: state.residents,
-				bills: state.bills
-			})
-		}
-	}
+  componentDidMount = () => {
+    const state = JSON.parse(localStorage.getItem('bill.r'));
 
-	saveState = () => localStorage.setItem('bill.r', JSON.stringify(this.state));
+    if (state != null) {
+      this.setState({
+        residents: state.residents,
+        bills: state.bills
+      });
+    }
+  };
 
-	allResidentsPaid = (billTitle) => {
-		var allResidentsPaid = true;
+  saveState = () => localStorage.setItem('bill.r', JSON.stringify(this.state));
 
-		this.state.bills.map(bill => {
-			if(bill.title === billTitle) {
-				allResidentsPaid = !this.state.residents.some(resident => {
-					return !(bill.payment[resident.name.toLowerCase()] != null && bill.payment[resident.name.toLowerCase()] === bill.amount)
-				});
-			}
+  allResidentsPaid = billTitle => {
+    var allResidentsPaid = true;
 
-			return bill;
-		});
+    this.state.bills.map(bill => {
+      if (bill.title === billTitle) {
+        allResidentsPaid = !this.state.residents.some(resident => {
+          return !(
+            bill.payment[resident.name.toLowerCase()] != null &&
+            bill.payment[resident.name.toLowerCase()] === bill.amount
+          );
+        });
+      }
 
-		// Delete
-		if(allResidentsPaid) {
-			this.setState({
-				bills:
-					this.state.bills.filter(bill => {
-						return bill.title !== billTitle;
-					})
-			}, () => { this.saveState() });
+      return bill;
+    });
 
-			this.setState({ alert: true });
-			setTimeout(() => {
-				this.setState({ alert: false });				
-			}, 3000)
-		}
-	}
+    // Delete
+    if (allResidentsPaid) {
+      this.setState(
+        {
+          bills: this.state.bills.filter(bill => {
+            return bill.title !== billTitle;
+          })
+        },
+        () => {
+          this.saveState();
+        }
+      );
 
-	payBill = (billTitle, month, resident, amount) => {
-		var updatedAmt, success;
+      this.setState({ alert: true });
+      setTimeout(() => {
+        this.setState({ alert: false });
+      }, 3000);
+    }
+  };
 
-		this.setState({ bills: this.state.bills.map(bill => {
-			if(bill.title.toLowerCase() === billTitle.toLowerCase() && bill.month === month) {
-				if(bill.payment[resident.toLowerCase()] != null) {
-					updatedAmt = bill.payment[resident.toLowerCase()] + amount;
-				} else updatedAmt = amount;
+  payBill = (billTitle, month, resident, amount) => {
+    var updatedAmt, success;
 
-				if(amount <= 0 || updatedAmt > bill.amount) {
-					success = false;
-				} else {
-					bill.payment[resident.toLowerCase()] = updatedAmt;
-					success = true;
-				}
-			}
+    this.setState({
+      bills: this.state.bills.map(bill => {
+        if (
+          bill.title.toLowerCase() === billTitle.toLowerCase() &&
+          bill.month === month
+        ) {
+          if (bill.payment[resident.toLowerCase()] != null) {
+            updatedAmt = bill.payment[resident.toLowerCase()] + amount;
+          } else updatedAmt = amount;
 
-			return bill;
-		})});
+          if (amount <= 0 || updatedAmt > bill.amount) {
+            success = false;
+          } else {
+            bill.payment[resident.toLowerCase()] = updatedAmt;
+            success = true;
+          }
+        }
 
-		this.allResidentsPaid(billTitle);
-		return success;
-	}
+        return bill;
+      })
+    });
 
-	addResident = (name, img) => {
-		this.setState({
-			residents: [...this.state.residents, {name, img}]
-		}, () => { this.saveState() });
-	}
+    this.allResidentsPaid(billTitle);
+    return success;
+  };
 
-	addBill = (title, month, amount) => {
-		this.setState({
-			bills: [...this.state.bills, { title, month, amount, payment: {}}]
-		}, () => { this.saveState() });
-	}
+  addResident = (name, img) => {
+    this.setState(
+      {
+        residents: [...this.state.residents, { name, img }]
+      },
+      () => {
+        this.saveState();
+      }
+    );
+  };
 
-	calcUnpaid = () => {
-		var unpaid = 0;
+  addBill = (title, month, amount) => {
+    this.setState(
+      {
+        bills: [...this.state.bills, { title, month, amount, payment: {} }]
+      },
+      () => {
+        this.saveState();
+      }
+    );
+  };
 
-		this.state.bills.forEach(bill => {
-			unpaid += bill.amount * this.state.residents.length;
+  calcUnpaid = () => {
+    var unpaid = 0;
 
-			for(var key in bill.payment) unpaid -= bill.payment[key];
-		})
+    this.state.bills.forEach(bill => {
+      unpaid += bill.amount * this.state.residents.length;
 
-		return unpaid;
-	}
+      for (var key in bill.payment) unpaid -= bill.payment[key];
+    });
 
-	deleteResident = name => {
-		this.setState({
-			residents: this.state.residents.filter(resident => {return resident.name !== name})
-		}, () => { this.saveState() });
-	}
+    return unpaid;
+  };
 
-	deleteBill = (title, month) => {
-		this.setState({
-			bills: this.state.bills.filter(bill => {return bill.title !== title || bill.month !== month})
-		}, () => { this.saveState() });
-	}
+  deleteResident = name => {
+    this.setState(
+      {
+        residents: this.state.residents.filter(resident => {
+          return resident.name !== name;
+        })
+      },
+      () => {
+        this.saveState();
+      }
+    );
+  };
 
-	changeTab = (e, { name }) => this.setState({ activeTab: name });
-	setView = () => {
-		const { activeTab, residents, bills } = this.state;
+  deleteBill = (title, month) => {
+    this.setState(
+      {
+        bills: this.state.bills.filter(bill => {
+          return bill.title !== title || bill.month !== month;
+        })
+      },
+      () => {
+        this.saveState();
+      }
+    );
+  };
 
-		if(activeTab === "overview") return (
-			<Overview residents={residents} bills={bills} payBill={this.payBill} alert={this.state.alert} calcUnpaid={this.calcUnpaid} paymentSuccess={this.state.paymentSuccess} />
-		);
-		else if(activeTab === "add-resident") return (
-			<AddResident addResident={this.addResident} />
-		);
-		else if(activeTab === "new-bill") return (
-			<NewBill addBill={this.addBill} />
-		);
-		else if(activeTab === "overview-list") return (
-			<OverviewList residents={this.state.residents} bills={this.state.bills} deleteResident={this.deleteResident} deleteBill={this.deleteBill} />
-		);
-	}
+  changeTab = (e, { name }) => this.setState({ activeTab: name });
+  setView = () => {
+    const { activeTab, residents, bills } = this.state;
 
-	render() {
-		return (
-			<div className="container">
-				<Header />
-				<Navigation state={this.state} changeTab={this.changeTab} />
+    if (activeTab === 'overview')
+      return (
+        <Overview
+          residents={residents}
+          bills={bills}
+          payBill={this.payBill}
+          alert={this.state.alert}
+          calcUnpaid={this.calcUnpaid}
+          paymentSuccess={this.state.paymentSuccess}
+        />
+      );
+    else if (activeTab === 'add-resident')
+      return <AddResident addResident={this.addResident} />;
+    else if (activeTab === 'new-bill')
+      return <NewBill addBill={this.addBill} />;
+    else if (activeTab === 'overview-list')
+      return (
+        <OverviewList
+          residents={this.state.residents}
+          bills={this.state.bills}
+          deleteResident={this.deleteResident}
+          deleteBill={this.deleteBill}
+        />
+      );
+  };
 
-				<Segment padded>
-					{this.setView()}
-				</Segment>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div className="container">
+        <Header />
+        <Navigation state={this.state} changeTab={this.changeTab} />
+
+        <Segment padded>
+          {this.setView()}
+        </Segment>
+      </div>
+    );
+  }
 }
 
 export default App;
