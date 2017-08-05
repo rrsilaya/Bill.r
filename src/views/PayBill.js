@@ -15,8 +15,7 @@ class PayBill extends Component {
 			this.setState({ success: false });
 		} else {
 			this.props.payBill(this.props.title, this.props.month, this.props.activeBill, this.state.amount, this.handleSuccess);
-			this.setState({ success: true })
-				.then(() => this.handleModal());
+			this.setState({ success: true }, () => { this.handleModal() });
 		}
 	}
 

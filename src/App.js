@@ -56,7 +56,7 @@ class App extends Component {
 					this.state.bills.filter(bill => {
 						return bill.title !== billTitle;
 					})
-			}).then(() => this.saveState());
+			}, () => { this.saveState() });
 
 			this.setState({ alert: true });
 			setTimeout(() => {
@@ -92,13 +92,13 @@ class App extends Component {
 	addResident = (name, img) => {
 		this.setState({
 			residents: [...this.state.residents, {name, img}]
-		}).then(() => this.saveState());
+		}, () => { this.saveState() });
 	}
 
 	addBill = (title, month, amount) => {
 		this.setState({
 			bills: [...this.state.bills, { title, month, amount, payment: {}}]
-		}).then(() => this.saveState());
+		}, () => { this.saveState() });
 	}
 
 	calcUnpaid = () => {
@@ -116,13 +116,13 @@ class App extends Component {
 	deleteResident = name => {
 		this.setState({
 			residents: this.state.residents.filter(resident => {return resident.name !== name})
-		}).then(() => this.saveState());
+		}, () => { this.saveState() });
 	}
 
 	deleteBill = (title, month) => {
 		this.setState({
 			bills: this.state.bills.filter(bill => {return bill.title !== title || bill.month !== month})
-		}).then(() => this.saveState());
+		}, () => { this.saveState() });
 	}
 
 	changeTab = (e, { name }) => this.setState({ activeTab: name });
