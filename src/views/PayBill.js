@@ -11,12 +11,12 @@ class PayBill extends Component {
 	}
 		
 	handleTransac = () => {
-		if(this.props.payBill(this.props.title, this.props.month, this.props.activeBill, this.state.amount, this.handleSuccess)) {
-			this.setState({ success: true});
-		} else this.setState({ success: false});
-
-		if(this.state.success) {
-			this.handleModal();
+		if(this.props.amount < this.state.amount || this.state.amount < 1) {
+			this.setState({ success: false });
+		} else {
+			this.props.payBill(this.props.title, this.props.month, this.props.activeBill, this.state.amount, this.handleSuccess);
+			this.setState({ success: true })
+				.then(() => this.handleModal());
 		}
 	}
 
